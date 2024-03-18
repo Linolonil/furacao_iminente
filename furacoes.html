@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="furacao.png">
+
+<title>Alerta de Catástrofe Iminente</title>
+<style>
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+  }
+
+  #alert {
+    background-color: #ff2701; /* Vermelho */
+    color: #fff;
+    font-weight: 400;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: bounceInDown 1s ease; 
+  }
+
+  @keyframes bounceInDown {
+    0% {
+      transform: translateY(-200px);
+      opacity: 0;
+    }
+    80% {
+      transform: translateY(20px); 
+    }
+    100% {
+      transform: translateY(0); 
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    #alert {
+      width: 80%; 
+      font-size: 14px;
+    }
+  }
+
+  #backgroundImage {
+    position:relative;
+    width: 130%;
+    height: 130%;
+    z-index: 9999; 
+    display: none;
+    animation-name: shake;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px) rotate(5deg); }
+    50% { transform: translateX(5px) rotate(-5deg); }
+    75% { transform: translateX(-5px) rotate(5deg); }
+    100% { transform: translateX(0); }
+  }
+</style>
+</head>
+<body>
+<div id="alert">
+  <h2>ALERTA DE CATASTROFE IMINENTE</h2>
+  <p>Uma catástrofe está prestes a ocorrer na sua área.</p>
+  <p>Por favor, procure um local seguro imediatamente e siga as instruções das autoridades locais.</p>
+  <p id="countdown">CATASTROFE EM <span id="timer">10</span> segundos.</p>
+</div>
+
+<audio id="alertSound" src="furacao.mp3" preload="auto"></audio>
+
+<img id="backgroundImage" src="diferenca-entre-furacao-e-tornado.jpg" alt="Catastrofe">
+
+<script>
+var timeLeft = 10; 
+
+function updateTimer() {
+  var timerElement = document.getElementById("timer");
+  timerElement.textContent = timeLeft;
+
+  timeLeft--;
+
+  if (timeLeft < 0) {
+    var alertDiv = document.getElementById('alert');
+    alertDiv.parentNode.removeChild(alertDiv);
+    clearInterval(timerInterval);
+
+    document.getElementById('backgroundImage').style.display = 'block';
+     var alertSound = document.getElementById('alertSound');
+    alertSound.play();
+  }
+}
+
+var timerInterval = setInterval(updateTimer, 1000);
+</script>
+</body>
+</html>
